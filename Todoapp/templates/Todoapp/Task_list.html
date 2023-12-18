@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Our Todo List{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #C0FDFB; /* Light Cyan */
+        }
+
+        table {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #B09E99; /* Light Taupe */
+            text-align: left;
+            padding: 10px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #FEE9E1; /* Pale Peach */
+        }
+
+        .btn-primary {
+            background-color: #64B6AC; /* Medium Turquoise */
+            border-color: #64B6AC;
+        }
+
+        .btn-primary:hover {
+            background-color: #007BFF; /* Blue */
+            border-color: #007BFF;
+        }
+
+        .btn-secondary {
+            background-color: #FAD4C0; /* Soft Apricot */
+            border-color: #FAD4C0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #C0FDFB; /* Light Cyan */
+            border-color: #C0FDFB;
+        }
+
+        /* New Styles for Completed Checklist */
+        .completed-checklist {
+            color: #0056b3; /* Medium Turquoise */
+            text-decoration: line-through; /* Add line-through for completed items */
+        }
+
+        /* New Style for Checkbox */
+        .custom-checkbox {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: #64B6AC; /* Medium Turquoise */
+            border: 1px solid #0056b3; /* Darker Blue */
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .custom-checkbox.checked::after {
+            content: '\2713'; /* Checkmark symbol */
+            font-size: 12px;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-checkbox:hover {
+            background-color: #007BFF; /* Blue on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>My Todo List App</h1>
+    {% block content %}
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Complete</th>
+                <th>DeadLine</th>
+                <th>Created</th>
+                <th>Action</th>
+                <th>Mark as Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in Task_list %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td class="{% if task.complete %}completed-checklist{% endif %}">
+                    <div class="custom-checkbox {% if task.complete %}checked{% endif %}"></div>
+                </td>
+                <td>{{ task.deadline|default:"Not specified" }}</td>
+                <td>{{ task.created }}</td>
+                <td>
+                    <form action="{% url 'Todoapp:todo_delete' pk=task.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
+                </td>
+                <td>
+                    {% if not task.complete %}
+                    <form action="{% url 'Todoapp:mark_completed' pk=task.pk %}" method="post"
+                        style="display:inline;">
+                        {% csrf_token %}
+                        <input type="submit" value="Mark as Completed" class="btn btn-success">
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{% url 'Todoapp:todo_create' %}" class="btn btn-primary">Add a Todo task</a></p>
+    <p>You can <a href="{% url 'logout' %}?next={% url 'Todoapp:open' %}" class="btn btn-secondary">Logout</a></p>
+    {% endblock %}
+
+</body>
+
+</html>

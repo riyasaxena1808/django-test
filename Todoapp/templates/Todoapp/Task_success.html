@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged Out</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fde9df; /* Light Peach */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        p {
+            color: #0881a3; /* Teal color */
+            font-size: 24px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #64B6AC; /* Medium Turquoise */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #007BFF; /* Blue on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <p>You can <a href="{% url 'Todoapp:all' %}">Go Back To Todo Task List</a></p>
+</body>
+
+</html>

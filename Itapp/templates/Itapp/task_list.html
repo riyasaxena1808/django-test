@@ -1,0 +1,41 @@
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid black;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #87CEEB;
+}
+</style>
+</head>
+
+
+
+<h1>Our todo list </h1>
+
+<table>
+  <tr>
+    <th>Task</th>
+    <th>Description</th>
+    <th>Deadline</th>
+  </tr>
+
+    {% for list in task_list %}
+    <tr>
+    <td>{{list.task}}</td>
+    <td>{{list.description}}</td>
+    <td>{{list.deadline}}</td>
+    </tr>
+    {% endfor %}
+
+
+</table>
